@@ -1,0 +1,12 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+GLUU_VERSION=2.4.4
+
+cd /install/community-edition-setup
+
+[ -f setup.log ] && rm setup.log
+touch setup.log
+tail -f setup.log &
+
+./setup.py -n

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+DEBIAN_FRONTEND=noninteractive
+
+# Prepare Container
+apt-get update
+apt-get dist-upgrade -fy
+apt-get install -fy curl vim supervisor apt-transport-https ca-certificates rsync
+
+# Add Gluu Repo
+echo "deb https://repo.gluu.org/ubuntu/ xenial main" > /etc/apt/sources.list.d/gluu-repo.list
+curl -#L https://repo.gluu.org/ubuntu/gluu-apt.key | apt-key add -
+apt-get update
+
+# Install Gluu Server
+apt-get install gluu-server-$GLUU_VERSION -fy
+
+# Jailbreak Gluu
+rsync -a /opt/gluu-server-$GLUU_VERSION/ /
+rm -r /opt/gluu-server-$GLUU_VERSION
+
+# Cleanup Caches
+rm -rf /var/cache/apt/*
+
+# Patch supervisord to run on forground
+sed -i 's|\[supervisord\]|\[supervisord\]\nnodaemon=true|' /etc/supervisor/supervisord.conf
