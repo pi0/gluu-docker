@@ -13,7 +13,3 @@ RUN gluu_install
 
 # Copy Scripts
 COPY bin/* /bin/
-
-# OnBuild Steps
-ONBUILD COPY setup.properties /install/community-edition-setup/setup.properties
-ONBUILD RUN gluu_setup
