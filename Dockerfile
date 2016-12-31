@@ -16,4 +16,4 @@ COPY bin/* /bin/
 
 # OnBuild Steps
 ONBUILD COPY setup.properties /install/community-edition-setup/setup.properties
-ONBUILD gluu_setup
+ONBUILD RUN gluu_setup
