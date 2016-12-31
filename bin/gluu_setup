@@ -3,8 +3,7 @@
 
 cd /install/community-edition-setup
 
-[ -f setup.log ] && rm setup.log
-touch setup.log
-tail -f setup.log &
+touch setup.log setup_error.log
+tail -f *.log &
 
 ./setup.py -n
