@@ -3,7 +3,7 @@
 
 cd /install/community-edition-setup
 
-touch setup.log setup_error.log
-tail -f *.log &
+touch setup.log setup_error.log gluu.log
+(sleep 5 && tail -f *.log) &
 
-./setup.py -n
+./setup.py | cat 2>&1 >gluu.log
