@@ -21,8 +21,8 @@ RUN GLUU_VER=2.4.4.2 && \
     yes | apt-get upgrade -f && \
     rm -rf /opt/gluu-server-${GLUU_VER} /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-# Entrypoint
-CMD gluu_entrypoint
+# Init script
+CMD gluu_init
 
 # Volumes
 VOLUME ["/opt/opendj/db"]

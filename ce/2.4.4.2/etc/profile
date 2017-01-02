@@ -29,7 +29,5 @@ if [ -d /etc/profile.d ]; then
   unset i
 fi
 
-echo "Welcome to the Gluu Server!"
-
 export JAVA_HOME=/usr/java/latest/
 export OPENDJ_JAVA_HOME=${JAVA_HOME}

@@ -2,7 +2,9 @@
 # Author Pooya Parsa <pooya@pi0.ir>
 set -e
 
+# Change init to level 3
 (/etc/init.d/rc 3) || :
-echo Service Running...
+echo System up!
 
+# Run next script or wait for infinity 
 [ ! -z $@ ] && $@ || sleep infinity
