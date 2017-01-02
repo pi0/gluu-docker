@@ -1,0 +1,26 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+set -e
+GLUU_DEB_URL=https://repo.gluu.org/ubuntu/pool/main/xenial/gluu-server-2.4.4.2_1-1~xenial+Ub16.04_amd64.deb
+GLUU_VERSION=2.4.4.2
+GLUU_DEB=gluu-${GLUU_VERSION}.deb
+DOCKER_TAG=quay.io/gluu/scratch:${GLUU_VERSION}
+
+# Make tmp
+mkdir -p tmp
+cd tmp
+
+# Download package
+echo "Downloading package"
+[ ! -f $GLUU_DEB ] && wget -O $GLUU_DEB $GLUU_DEB_URL
+
+# Extract package
+echo "Extracting package"
+[ ! -d $GLUU_VERSION ] && dpkg -x $GLUU_DEB $GLUU_VERSION
+
+# Make image
+echo "Making docker image ${DOCKER_TAG}"
+ROOTFS=${GLUU_VERSION}/opt/gluu-server-${GLUU_VERSION}
+ROOTFS_SIZE=`du -sk ${ROOTFS} | cut -f 1`
+tar -cf- -C ${ROOTFS} . | pv -s ${ROOTFS_SIZE}k | docker import - ${DOCKER_TAG}

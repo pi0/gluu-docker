@@ -1,0 +1,6 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+set -e
+
+(/etc/init.d/rc 0) || :
+echo Bye!

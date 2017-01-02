@@ -1,11 +1,17 @@
-[![Docker Repository on Quay](https://quay.io/repository/gluu/gluu/status "Docker Repository on Quay")](https://quay.io/repository/gluu/gluu)
 # Gluu Docker Image
 **NOTE: This is just a Work-In-Progress snapshot and should be used by caution**
 
 ## Preface
-Altough Gluu has officialy Docker Edition Workflows it is too complex and requires many requirements.  
-This distro simply uses official Ubuntu installion steps and then *Jailbreaks* package container into original container.  
-This reduces totoal image size & makes it much easier to maintain and setup...  
+Altough Gluu has officialy Docker Edition Workflows it is too complex and has many requirements.  
 
-# Usage
-build latest version (2.4.4.2) And then use template.
+## Dist descriptions
+
+### CE (community-edition)
+This distro simply uses official Ubuntu installion steps and then *jailbreaks* package container into original container.  
+This reduces totoal image size & makes it much easier to maintain and setup..
+
+### Scratch
+Build scripts to make scratch images directly from rootfs.
+
+### DE (docker-edition) 
+DE based images for ubuntu 16.04 as are not officially released yet.
