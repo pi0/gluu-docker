@@ -1,0 +1,9 @@
+version: '2'
+services:
+    gluu:
+        image: gluu
+        build: build
+        volumes:
+            - ./data/opendj/db:/opt/opendj/db
+        network_mode: bridge
+        restart: always

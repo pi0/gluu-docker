@@ -1,0 +1,7 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+set -x
+
+(/etc/init.d/rc 3) || :
+echo Service Running...
+sleep infinity

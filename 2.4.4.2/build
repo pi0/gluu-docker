@@ -1,0 +1,1 @@
+docker build -t quay.io/gluu/gluu:2.4.4.2 .
