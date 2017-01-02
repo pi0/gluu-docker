@@ -4,7 +4,7 @@ set -e
 
 cd /install/community-edition-setup
 
-cp -v setup.properties.last setup.properties
+[ -f setup.properties.last ] && cp -v setup.properties.last setup.properties
 
 (sleep 3 && tail -f *.log) &
 

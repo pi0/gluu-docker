@@ -1,11 +1,11 @@
 version: '2'
 services:
     gluu:
-        image: quay.io/gluu/gluu:2.4.4.2
+        image: gluu
         hostname: sso
-        command: gluu_init gluu_setup
+        command: gluu_init
         volumes:
-            - ./conf/setup.properties.last:/install/community-edition-setup/setup.properties.last
             - ./data/opendj/db:/opt/opendj/db
+        #environment:
         network_mode: bridge
         restart: always
