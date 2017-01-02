@@ -21,16 +21,16 @@
 #SOFTWARE.
 
 ### IP Address of the interface to host IDP
-ip=*
+ip=
 
 ### The hostname of the server
-hostname=sso
+hostname=
 
 ### This information is needed for self signed certificate
-orgName=MyOrg
-countryCode=us
-city=us
-state=us
+orgName=
+countryCode=
+city=
+state=
 
 ## Do NOT modify below this part unless you know what you're doing
 
