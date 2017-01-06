@@ -1,0 +1,34 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+set -e
+
+# Install scripts are located in /install
+cd /install
+
+if [ ! -f out/setup.properties ] ; then
+# Generate setup.properties if not exists
+cat > setup.properties << EOL
+ip=${GLUU_IP:-0.0.0.0}
+hostname=${GLUU_HOSTNAME:-gluu}
+orgName=${GLUU_ORG_NAME:-org}
+countryCode=${GLUU_COUNTRY_CODE:-us}
+city=${GLUU_CITY:-nyc}
+state=${GLUU_STATE:-nyc}
+ldapPass=${GLUU_LDAPPASS:-}
+inumOrg=${GLUU_INUM_ORG:-}
+inumAppliance=${GLUU_INUM_APPLIANCE:-}
+EOL
+else
+# Reuse latest setup properties
+cp -v out/setup.properties setup.properties
+fi 
+
+# Wait for setup to start before tail as it recreates log files
+(sleep 3 && tail -f *.log) &
+
+# Run setup
+./setup.py $@
+
+# Persist generated properties
+cp -v setup.properties.last out/setup.properties
+echo Setup Finished!
