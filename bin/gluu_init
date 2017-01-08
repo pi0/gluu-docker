@@ -2,9 +2,9 @@
 # Author Pooya Parsa <pooya@pi0.ir>
 set -e
 
-# Change init to level 3
-(/etc/init.d/rc 3) || :
-echo Gluu up!
+if [ ! -f /etc/gluu/conf/ox-ldap.properties ] ; then
+    gluu_setup -n
+fi
 
-# Run next script or wait for infinity 
-[ ! -z $@ ] && $@ || sleep infinity
+echo "Starting slapd"
+/opt/symas/lib64/slapd -d 10 -h ldaps://0.0.0.0:1636/

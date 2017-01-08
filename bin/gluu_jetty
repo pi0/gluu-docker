@@ -17,6 +17,8 @@ echo Jetty service ${SERVICE}
 mkdir -p ${JETTY_HOME}/temp
 mkdir -p ${JETTY_BASE}/logs
 
+JETTY_ARGS="jetty.http.host=0.0.0.0 jetty.http.port=80"
+
 $JAVA $JAVA_OPTIONS \
         -Djetty.logging.dir=${JETTY_BASE}/logs \
         -Djetty.home=${JETTY_HOME} \
@@ -26,4 +28,4 @@ $JAVA $JAVA_OPTIONS \
         ${JETTY_ARGS} \
         jetty.state=${JETTY_BASE}/${SERVICE}.state \
         jetty-logging.xml jetty-started.xml \
-        start-log-file=${JETTY_BASE}/logs/start.log \
+        start-log-file=${JETTY_BASE}/logs/start.log

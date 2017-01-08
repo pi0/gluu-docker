@@ -30,8 +30,6 @@ fi
 # Run setup
 ./setup.py $@
 
-# Post Setup
-
 # Remove Custom options
 pushd /opt/gluu/jetty
  for app in *; do
@@ -48,19 +46,12 @@ sed -i -e 's/127.0.0.1/0.0.0.0/g' /opt/symas/etc/openldap/symas-openldap.conf
 # Cleanup everything
 find /var/run -type f -exec rm {} +
 
-rm -rv /opt/gluu/jetty/identity/identity.state \
-       /opt/gluu/jetty/identity/logs/* \
-       /opt/gluu/jetty/oxauth/oxauth.state \
-       /opt/gluu/jetty/oxauth/logs/* \
-       /var/symas/run/slapd.*
-
-
 # Persist generated properties
+cd /install
 mv -v setup.properties.last output/setup.properties
 mkdir -p output/logs
 mv -v *.log output/logs
 
 echo "********************************************"
-echo Setup Finished
-echo Please restart container
+echo "Setup Finished"
 echo "********************************************"

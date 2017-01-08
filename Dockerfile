@@ -66,16 +66,16 @@ RUN oxVersion=3.0.0-SNAPSHOT && \
     wget -O identity.war http://ox.gluu.org/maven/org/xdi/oxtrust-server/${oxVersion}/oxtrust-server-${oxVersion}.war && \
     wget -O cas.war http://ox.gluu.org/maven/org/xdi/ox-cas-server-webapp/${oxVersion}/ox-cas-server-webapp-${oxVersion}.war
 
-# Pip
+# Python pip dependencies
 RUN pip install pyDes
+
+# Disable service commands
+RUN cp /bin/true /usr/sbin/service
 
 RUN CE_SETUP_TAR=https://github.com/GluuFederation/community-edition-setup/archive/master.tar.gz && \
     cd /tmp && \
     curl -#L ${CE_SETUP_TAR} | tar -xzf- && \
     mv community-edition-setup-master /install
-
-# Export container volumes
-EXPOSE 443 1636
 
 # Export Data Volumes
 VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output"]

@@ -1,0 +1,5 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+SERVICE=$1
+tail -f /opt/gluu/jetty/${SERVICE}/logs/*
