@@ -1,0 +1,25 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+SERVICE=$1
+export SERVICE_CONF=/etc/default/${SERVICE}
+if [ ! -f ${SERVICE_CONF} ] ; then
+        echo "Service ${SERVICE} not found" >&2
+        exit 1
+fi
+source ${SERVICE_CONF}
+echo Jetty service ${SERVICE}
+
+mkdir -p ${JETTY_HOME}/temp
+mkdir -p ${JETTY_BASE}/logs
+
+$JAVA $JAVA_OPTIONS \
+        -Djetty.logging.dir=${JETTY_BASE}/logs \
+        -Djetty.home=${JETTY_HOME} \
+        -Djetty.base=${JETTY_BASE} \
+        -Djava.io.tmpdir=${JETTY_HOME}/temp     \
+        -jar ${JETTY_HOME}/start.jar \
+        ${JETTY_ARGS} \
+        jetty.state=${JETTY_BASE}/${SERVICE}.state \
+        jetty-logging.xml jetty-started.xml \
+        start-log-file=${JETTY_BASE}/logs/start.log \
