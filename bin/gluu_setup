@@ -17,6 +17,7 @@ state=${GLUU_STATE:-nyc}
 ldapPass=${GLUU_LDAPPASS:-}
 inumOrg=${GLUU_INUM_ORG:-}
 inumAppliance=${GLUU_INUM_APPLIANCE:-}
+ldap_hostname=${GLUU_LDAP_HOSTNAME:-ldap}
 EOL
 else
 # Reuse latest setup properties

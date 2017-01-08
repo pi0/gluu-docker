@@ -1,6 +1,10 @@
 #!/bin/bash
 # Author Pooya Parsa <pooya@pi0.ir>
 
+if [ ! -z "$LDAP_PORT_1636_TCP_ADDR" ] ; then
+   echo "$LDAP_PORT_1636_TCP_ADDR ldap" >> /etc/hosts
+fi
+
 SERVICE=$1
 export SERVICE_CONF=/etc/default/${SERVICE}
 if [ ! -f ${SERVICE_CONF} ] ; then
