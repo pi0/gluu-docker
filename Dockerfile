@@ -21,15 +21,12 @@ RUN apt-get update && \
         unzip \
         xz-utils \
         openjdk-8-jre-headless \
-        jetty9 \
         rsyslog \
         jython && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Apache2 modules
 RUN a2enmod proxy_http headers ssl
-
-# Install 3rd party dependencies
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash && \
@@ -51,26 +48,42 @@ RUN cd tmp && \
     dpkg -i openldap.deb && \
     rm openldap.deb
 
-# Community-edition-setup
+# Jetty
+RUN cd tmp && \
+    curl -#L http://central.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.15.v20161220/jetty-distribution-9.3.15.v20161220.tar.gz | tar -xzf- && \
+    mv -v jetty-distribution-* /opt/jetty
 
-# Prepare
+# Link installed packages to locations where Gluu expects to
 RUN ln -sfv /usr/lib/jvm/java-8-openjdk-* /opt/jre && \
     ln -sfv /usr/share/jython/ /opt/jython && \
-    ln -sfv /usr/share/jetty9 /opt/jetty && \
-    mkdir -p /opt/dist/gluu /opt/dist/app /opt/dist/symas
+    ln -sfv /usr/share/jetty9 /opt/jetty
+
+# Get gluu dist files
+RUN oxVersion=3.0.0-SNAPSHOT && \
+    mkdir -p /opt/dist/gluu /opt/dist/app /opt/dist/symas && \
+    cd /opt/dist/gluu && \
+    wget -O oxauth.war http://ox.gluu.org/maven/org/xdi/oxauth-server/${oxVersion}/oxauth-server-${oxVersion}.war && \
+    wget -O identity.war http://ox.gluu.org/maven/org/xdi/oxtrust-server/${oxVersion}/oxtrust-server-${oxVersion}.war && \
+    wget -O cas.war http://ox.gluu.org/maven/org/xdi/ox-cas-server-webapp/${oxVersion}/ox-cas-server-webapp-${oxVersion}.war
+
+# Pip
+RUN pip install pyDes
 
 RUN CE_SETUP_TAR=https://github.com/GluuFederation/community-edition-setup/archive/master.tar.gz && \
     cd /tmp && \
     curl -#L ${CE_SETUP_TAR} | tar -xzf- && \
-    mv community-edition-setup-master /install && \
-    pip install pyDes
+    mv community-edition-setup-master /install
+
+# Export container volumes
+EXPOSE 443 1636
 
 # Export Data Volumes
-VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/out"]
+VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output"]
 
-# Copy Docker Scripts
+# Run Initial Setup script so that everything is pre-configurated
+# This phase also downloads latest war files
+COPY bin/gluu_setup /bin/gluu_setup
+RUN (gluu_setup -n) || :
+
+# Copy Util Scripts
 COPY bin/* /bin/
-
-# Run Initial Setup script so that everything is pre configurated
-# This Phase also downloads latest war files
-RUN gluu_setup -n -w
