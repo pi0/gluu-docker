@@ -81,9 +81,8 @@ EXPOSE 443 1636
 VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output"]
 
 # Run Initial Setup script so that everything is pre-configurated
-# This phase also downloads latest war files
 COPY bin/gluu_setup /bin/gluu_setup
-RUN (gluu_setup -n) || :
+RUN gluu_setup -n || :
 
 # Copy Util Scripts
 COPY bin/* /bin/

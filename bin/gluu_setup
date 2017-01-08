@@ -35,20 +35,31 @@ fi
 pushd /opt/gluu/jetty
  for app in *; do
     sed -i 's/^[^-\#]/#\0/g' ${app}/start.ini
-    /etc/init.d/$app restart
  done
 popd
 
 # Apache listen to all interfaces
 sed -i -e 's/ServerName.*//g' -e 's/127.0.0.1/*/g' /etc/apache2/sites-enabled/https_gluu.conf
-/etc/init.d/apache2 restart
 
 # Openldap listen to all interfaces 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /opt/symas/etc/openldap/symas-openldap.conf
-/etc/init.d/solserver restart
+
+# Cleanup everything
+find /var/run -type f -exec rm {} +
+
+rm -rv /opt/gluu/jetty/identity/identity.state \
+       /opt/gluu/jetty/identity/logs/* \
+       /opt/gluu/jetty/oxauth/oxauth.state \
+       /opt/gluu/jetty/oxauth/logs/* \
+       /var/symas/run/slapd.*
+
 
 # Persist generated properties
 mv -v setup.properties.last output/setup.properties
 mkdir -p output/logs
 mv -v *.log output/logs
-echo Setup Finished!
+
+echo "********************************************"
+echo Setup Finished
+echo Please restart container
+echo "********************************************"
