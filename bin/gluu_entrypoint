@@ -10,8 +10,8 @@ function setup {
 }
 
 function ldap {
-    echo "Starting slapd"
-    /opt/symas/lib64/slapd -d 10 -h ldaps://0.0.0.0:1636/
+    echo "Starting ldap"
+    gluu_ldap
 }
 
 function identity {

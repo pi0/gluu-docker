@@ -44,11 +44,13 @@ ln -vsf /etc/http_gluu.conf /etc/apache2/sites-enabled/http_gluu.conf
 # Openldap listen to all interfaces 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /opt/symas/etc/openldap/symas-openldap.conf
 
+# Openlap persist conf
+cp -v ./output/slapd.conf /etc/gluu/conf/slapd.conf
+
 # Cleanup everything
 find /var/run -type f -exec rm {} +
 
 # Persist generated properties
-cd /install
 mv -v setup.properties.last output/setup.properties
 mkdir -p output/logs
 mv -v *.log output/logs

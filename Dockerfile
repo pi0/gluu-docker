@@ -79,7 +79,7 @@ RUN ln -sfv /usr/lib/jvm/java-8-openjdk-* /opt/jre && \
     ln -sfv /usr/share/jetty9 /opt/jetty
 
 # Export Data Volumes
-VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output"]
+VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output","/var/ox"]
 
 # Run Initial Setup script so that everything is pre-configurated
 COPY bin/gluu_setup /bin/gluu_setup
