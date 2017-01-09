@@ -1,26 +1,17 @@
-<p align="center"><img src="https://www.gluu.org/wp-content/themes/gluu/images/gl.png"></p>
+**Please note that this variants are not a part of official project and are/were just meant for testing purposes**
 
-# Gluu C.E Docker
-Altough Gluu has officialy Docker Edition Workflows it is too complex and has many requirements.  
+## PLEASE USE `master` REPO
+## See below if you you know actually where you are!
 
-# Quick Start
-Create an empry directory and inside that:
+# Image Variants
 
-```bash
-# Clone repo
-git clone https://github.com/pi0/gluu-docker sso
-cd sso
+### CE (community-edition)
+This distro simply uses official Ubuntu installion steps and then *jailbreaks* package container into original container.  
+This reduces totoal image size & makes it much easier to maintain and setup..
 
-# Edit env file
-[ ! -f env ] && cp -rv env.example env
-$EDITOR env 
+### DE (docker-edition) 
+DE based images for ubuntu 16.04 as are not officially released yet.
 
-# Setup
-docker-compose run --rm ldap setup
+### Scratch
+Build scripts to make scratch images directly from rootfs.
 
-# Compose up!
-docker-compose up -d
-
-# View default password
-cat data/gluu_install/setup.properties|grep ldapPass=
-```

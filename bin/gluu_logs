@@ -1,6 +1,0 @@
-#!/bin/bash
-# Author Pooya Parsa <pooya@pi0.ir>
-set -e
-
-tail -f /opt/gluu/jetty/oxauth/logs/* \
-        /opt/gluu/jetty/identity/logs/*
