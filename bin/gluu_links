@@ -1,13 +1,14 @@
 #!/bin/bash
 # Author Pooya Parsa <pooya@pi0.ir>
+set -e
 
 function link {
-    if [ ! -z $1 ] ; then
-        echo "$1 $2" >> /etc/hosts
-        echo "$2 ~> $1"
+    if [ ! -z $2 ] ; then
+        echo "$2 $1" >> /etc/hosts
+        echo "$1 ~> $2"
     fi
 }
 
-link $LDAP_PORT_1636_TCP_ADDR ldap
-link $IDENTITY_PORT_1636_TCP_ADDR identity
-link $OXAUTH_PORT_1636_TCP_ADDR oxauth
+link ldap $LDAP_PORT_1636_TCP_ADDR
+link identity $IDENTITY_PORT_80_TCP_ADDR 
+link oxauth $OXAUTH_PORT_80_TCP_ADDR

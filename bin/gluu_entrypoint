@@ -24,6 +24,11 @@ function oxauth {
     gluu_jetty oxauth
 }
 
+function proxy {
+    echo "Starting apache"
+    gluu_apache
+}
+
 function repl {
     bash
 }
@@ -45,6 +50,9 @@ case "$1" in
         ;;
     oxauth)
         oxauth
+        ;;
+    proxy)
+        proxy
         ;;
     *)
         [ -z "$@" ] && repl || $@
