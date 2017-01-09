@@ -53,29 +53,30 @@ RUN cd tmp && \
     curl -#L http://central.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.15.v20161220/jetty-distribution-9.3.15.v20161220.tar.gz | tar -xzf- && \
     mv -v jetty-distribution-* /opt/jetty
 
-# Link installed packages to locations where Gluu expects to
-RUN ln -sfv /usr/lib/jvm/java-8-openjdk-* /opt/jre && \
-    ln -sfv /usr/share/jython/ /opt/jython && \
-    ln -sfv /usr/share/jetty9 /opt/jetty
-
-# Get gluu dist files
-RUN oxVersion=3.0.0-SNAPSHOT && \
-    mkdir -p /opt/dist/gluu /opt/dist/app /opt/dist/symas && \
-    cd /opt/dist/gluu && \
-    wget -O oxauth.war http://ox.gluu.org/maven/org/xdi/oxauth-server/${oxVersion}/oxauth-server-${oxVersion}.war && \
-    wget -O identity.war http://ox.gluu.org/maven/org/xdi/oxtrust-server/${oxVersion}/oxtrust-server-${oxVersion}.war && \
-    wget -O cas.war http://ox.gluu.org/maven/org/xdi/ox-cas-server-webapp/${oxVersion}/ox-cas-server-webapp-${oxVersion}.war
-
 # Python pip dependencies
 RUN pip install pyDes
 
-# Disable service commands
-RUN cp /bin/true /usr/sbin/service
+# Get gluu dist files
+RUN oxVersion=3.0.0-SNAPSHOT && \
+    tag=20170109 && \
+    mkdir -p /opt/dist/gluu /opt/dist/app /opt/dist/symas && \
+    cd /opt/dist/gluu && \
+    wget -O oxauth.war http://ox.gluu.org/maven/org/xdi/oxauth-server/${oxVersion}/oxauth-server-${oxVersion}.war?$tag && \
+    wget -O identity.war http://ox.gluu.org/maven/org/xdi/oxtrust-server/${oxVersion}/oxtrust-server-${oxVersion}.war?$tag && \
+    wget -O cas.war http://ox.gluu.org/maven/org/xdi/ox-cas-server-webapp/${oxVersion}/ox-cas-server-webapp-${oxVersion}.war?$tag
 
 RUN CE_SETUP_TAR=https://github.com/GluuFederation/community-edition-setup/archive/master.tar.gz && \
     cd /tmp && \
     curl -#L ${CE_SETUP_TAR} | tar -xzf- && \
     mv community-edition-setup-master /install
+
+# Disable service commands
+RUN cp /bin/true /usr/sbin/service
+
+# Link installed packages to locations where Gluu expects to
+RUN ln -sfv /usr/lib/jvm/java-8-openjdk-* /opt/jre && \
+    ln -sfv /usr/share/jython/ /opt/jython && \
+    ln -sfv /usr/share/jetty9 /opt/jetty
 
 # Export Data Volumes
 VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/output"]
