@@ -2,15 +2,14 @@
 
 # Gluu C.E Docker
 
-# Quick Start
-Create an empry directory and inside that:
+## Quick Start
 
 ```bash
-# Clone repo
+# clone repo
 git clone https://github.com/pi0/gluu-docker sso
 cd sso
 
-# Edit env file
+# edit env file
 [ ! -f env ] && cp -rv env.example env
 $EDITOR env 
 

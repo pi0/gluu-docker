@@ -1,19 +1,20 @@
 version: '2'
 services:
     
-    #----------------------
-    # Gluu main server
-    #----------------------
+    #--------------------------------
+    # Gluu ldap server
+    #--------------------------------
     ldap:
         image: quay.io/gluu/gluu
         command: ldap
-        hostname: sso
         volumes:
             - ./data/gluu_data:/opt/gluu/data
             - ./data/gluu_schema:/opt/gluu/schema
             - ./data/gluu_etc:/etc/gluu
             - ./data/gluu_certs:/etc/certs
             - ./data/gluu_install:/install/output
+            - ./data/gluu_ox:/var/ox
+        env_file: env
         network_mode: bridge
         expose: [1636]
         restart: always
@@ -27,7 +28,7 @@ services:
         hostname: identity
         volumes_from: [ldap]
         network_mode: bridge
-        links: ["ldap"] 
+        links: [ldap] 
         expose: [80]
         restart: always
 
@@ -40,18 +41,18 @@ services:
         hostname: oxauth
         volumes_from: [ldap]
         network_mode: bridge
-        links: ["ldap"] 
+        links: [ldap] 
         expose: [80]
         restart: always
         
-    #----------------------
+    #--------------------------------
     # Gluu proxy
-    #----------------------
+    #--------------------------------
     proxy:
         image: quay.io/gluu/gluu
         command: proxy
         volumes_from: [ldap]
-        links: ["identity","oxauth"]
+        links: [identity,oxauth]
         expose: [80]
         network_mode: bridge
         restart: always
