@@ -1,0 +1,52 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+set -e
+
+function setup {
+    if [ ! -f /etc/gluu/conf/ox-ldap.properties ] ; then
+     echo "Gluu setup"
+     gluu_setup -n
+    fi
+}
+
+function ldap {
+    echo "Starting slapd"
+    /opt/symas/lib64/slapd -d 10 -h ldaps://0.0.0.0:1636/
+}
+
+function identity {
+    echo "Starting identity"
+    gluu_jetty identity
+}
+
+function oxauth {
+    echo "Starting oxauth"
+    gluu_jetty oxauth
+}
+
+function repl {
+    bash
+}
+
+# Setup Container Links
+gluu_links
+
+# Entrypoint
+case "$1" in
+    setup) 
+        setup 
+        ;;
+    ldap) 
+        setup
+        ldap 
+        ;;
+    identity)
+        identity
+        ;;
+    oxauth)
+        oxauth
+        ;;
+    *)
+        [ -z "$@" ] && repl || $@
+        ;;
+esac

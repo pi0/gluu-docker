@@ -84,5 +84,11 @@ VOLUME ["/opt/gluu/data","/opt/gluu/schema","/etc/gluu","/etc/certs","/install/o
 COPY bin/gluu_setup /bin/gluu_setup
 RUN gluu_setup -n || :
 
+# Entrypoint
+ENTRYPOINT ["gluu_entrypoint"]
+
+# Copy etc
+COPY etc/* /etc/
+
 # Copy Util Scripts
 COPY bin/* /bin/

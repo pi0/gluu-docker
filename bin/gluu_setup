@@ -20,7 +20,7 @@ inumAppliance=${GLUU_INUM_APPLIANCE:-}
 ldap_hostname=${GLUU_LDAP_HOSTNAME:-ldap}
 EOL
 else
-# Reuse latest setup properties
+# Restore latest setup properties
 cp -v output/setup.properties setup.properties
 fi 
 
@@ -37,8 +37,9 @@ pushd /opt/gluu/jetty
  done
 popd
 
-# Apache listen to all interfaces
-sed -i -e 's/ServerName.*//g' -e 's/127.0.0.1/*/g' /etc/apache2/sites-enabled/https_gluu.conf
+# Override Apache config
+rm /etc/apache2/sites-enabled/*
+ln -vsf /etc/http_gluu.conf /etc/apache2/sites-enabled/http_gluu.conf
 
 # Openldap listen to all interfaces 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /opt/symas/etc/openldap/symas-openldap.conf

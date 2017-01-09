@@ -1,0 +1,13 @@
+#!/bin/bash
+# Author Pooya Parsa <pooya@pi0.ir>
+
+function link {
+    if [ ! -z $1 ] ; then
+        echo "$1 $2" >> /etc/hosts
+        echo "$2 ~> $1"
+    fi
+}
+
+link $LDAP_PORT_1636_TCP_ADDR ldap
+link $IDENTITY_PORT_1636_TCP_ADDR identity
+link $OXAUTH_PORT_1636_TCP_ADDR oxauth
