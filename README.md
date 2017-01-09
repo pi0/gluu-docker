@@ -1,7 +1,6 @@
 <p align="center"><img src="https://www.gluu.org/wp-content/themes/gluu/images/gl.png"></p>
 
 # Gluu C.E Docker
-Altough Gluu has officialy Docker Edition Workflows it is too complex and has many requirements.  
 
 # Quick Start
 Create an empry directory and inside that:
@@ -24,3 +23,4 @@ docker-compose up -d
 # View default password
 cat data/gluu_install/setup.properties|grep ldapPass=
 ```
+
