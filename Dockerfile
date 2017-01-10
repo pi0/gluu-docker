@@ -58,7 +58,7 @@ RUN pip install pyDes
 
 # Get gluu dist files
 RUN oxVersion=3.0.0-SNAPSHOT && \
-    tag=20170109 && \
+    tag=20170110 && \
     mkdir -p /opt/dist/gluu /opt/dist/app /opt/dist/symas && \
     cd /opt/dist/gluu && \
     wget -O oxauth.war http://ox.gluu.org/maven/org/xdi/oxauth-server/${oxVersion}/oxauth-server-${oxVersion}.war?$tag && \
@@ -68,7 +68,7 @@ RUN oxVersion=3.0.0-SNAPSHOT && \
 RUN CE_SETUP_TAR=https://github.com/GluuFederation/community-edition-setup/archive/master.tar.gz && \
     cd /tmp && \
     curl -#L ${CE_SETUP_TAR} | tar -xzf- && \
-    mv community-edition-setup-master /install
+    mv community-edition-setup-* /install
 
 # Disable service commands
 RUN cp /bin/true /usr/sbin/service
