@@ -22,7 +22,9 @@ RUN apt-get update && \
         xz-utils \
         openjdk-8-jre-headless \
         rsyslog \
-        jython && \
+        jython \
+        facter \
+        && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # Apache2 modules
@@ -52,6 +54,9 @@ RUN cd tmp && \
 RUN cd tmp && \
     curl -#L http://central.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.15.v20161220/jetty-distribution-9.3.15.v20161220.tar.gz | tar -xzf- && \
     mv -v jetty-distribution-* /opt/jetty
+
+# check_ssl
+RUN ln -s /bin/true /bin/check_ssl
 
 # Python pip dependencies
 RUN pip install pyDes
