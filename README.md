@@ -23,3 +23,11 @@ docker-compose up -d
 cat data/gluu_install/setup.properties|grep ldapPass=
 ```
 
+## Important Notes
+Only the standard components (identity, oxauth, ldap) are currently supported and available. Please refer to the docker-compose file for details. 
+
+You currently *MUST* provide your own SSL terminating endpoint, i.e. a reverse proxy relaying requests to the gluu proxy.
+
+```
+SSL termination endpoint (443) => gluu proxy (80) => Identity Server with invalid cert (443)
+```
