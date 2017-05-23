@@ -2,6 +2,8 @@
 
 # Gluu C.E Docker
 
+# ⚰️ This repository is not maintained anymore. Scripts can still be used as a reference :)
+
 ## Quick Start
 
 ```bash
